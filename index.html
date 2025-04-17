@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visualizador de Algoritmos de Ordenamiento</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style/style.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-900 text-gray-200 antialiased">
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+      <header class="text-center mb-12">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-100 mb-2">
+          Visualizador de Algoritmos de Ordenamiento
+        </h1>
+        <p class="text-gray-300 mb-4">
+          Observa paso a paso cómo funcionan los algoritmos de ordenamiento más
+          comunes
+        </p>
+      </header>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="bg-gray-800 rounded-lg shadow-md p-6 lg:col-span-1">
+          <h2 class="text-xl font-semibold text-gray-100 mb-4">
+            Configuración
+          </h2>
+
+          <div class="mb-6">
+            <label
+              class="block text-sm font-medium text-gray-300 mb-2"
+              for="data-input"
+              >Ingresa datos (separados por comas):</label
+            >
+            <textarea
+              id="data-input"
+              class="w-full p-3 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+              rows="3"
+              placeholder="8, 5, 2, 6, 9, 3"
+            ></textarea>
+          </div>
+
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-300 mb-2"
+              >Ejemplos predefinidos:</label
+            >
+            <div class="space-y-2">
+              <button
+                id="example1"
+                class="bg-gray-600 hover:bg-gray-500 px-3 py-1 rounded-md text-sm transition"
+              >
+                Pocos elementos (5)
+              </button>
+              <button
+                id="example2"
+                class="bg-gray-600 hover:bg-gray-500 px-3 py-1 rounded-md text-sm transition ml-2"
+              >
+                Desordenado (10)
+              </button>
+              <button
+                id="example3"
+                class="bg-gray-600 hover:bg-gray-500 px-3 py-1 rounded-md text-sm transition ml-2"
+              >
+                Casi ordenado
+              </button>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <label
+              class="block text-sm font-medium text-gray-300 mb-2"
+              for="algorithm"
+              >Algoritmo de ordenamiento:</label
+            >
+            <select
+              id="algorithm"
+              class="w-full p-3 bg-gray-700 border border-gray-600 rounded-md text-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+            >
+              <option value="bubble">Bubble Sort (Burbuja)</option>
+              <option value="insertion">Insertion Sort (Inserción)</option>
+              <option value="selection">Selection Sort (Selección)</option>
+            </select>
+          </div>
+
+          <div class="mb-6">
+            <label
+              class="block text-sm font-medium text-gray-300 mb-2"
+              for="speed"
+              >Velocidad de animación:</label
+            >
+            <input
+              type="range"
+              id="speed"
+              min="1"
+              max="10"
+              value="5"
+              class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer"
+            />
+            <div class="flex justify-between text-xs text-gray-400 mt-1">
+              <span>Lento</span>
+              <span>Rápido</span>
+            </div>
+          </div>
+
+          <div class="flex space-x-3">
+            <button
+              id="start-btn"
+              class="flex-1 bg-teal-600 hover:bg-teal-700 text-white py-2 px-4 rounded-md font-medium transition"
+            >
+              Iniciar
+            </button>
+            <button
+              id="pause-btn"
+              class="flex-1 bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-md font-medium transition"
+              disabled
+            >
+              Pausar
+            </button>
+            <button
+              id="reset-btn"
+              class="flex-1 bg-gray-500 hover:bg-gray-400 text-white py-2 px-4 rounded-md font-medium transition"
+            >
+              Reiniciar
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg shadow-md p-6 lg:col-span-2">
+          <h2 class="text-xl font-semibold text-gray-100 mb-4">
+            Visualización
+          </h2>
+
+          <div id="algorithm-info" class="mb-6 p-4 bg-gray-700 rounded-md">
+            <h3 class="font-semibold text-gray-100 mb-2">
+              Bubble Sort (Ordenamiento Burbuja)
+            </h3>
+            <p class="text-gray-300 text-sm">
+              Compara elementos adyacentes e intercambia según su orden. Se
+              repite hasta ordenar todos los elementos.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div class="bg-teal-800 p-3 rounded-md">
+              <p class="text-xs text-teal-200">Comparaciones</p>
+              <p id="comparisons" class="text-2xl font-semibold text-teal-200">
+                0
+              </p>
+            </div>
+            <div class="bg-blue-800 p-3 rounded-md">
+              <p class="text-xs text-blue-200">Intercambios</p>
+              <p id="swaps" class="text-2xl font-semibold text-blue-200">0</p>
+            </div>
+            <div class="bg-purple-800 p-3 rounded-md">
+              <p class="text-xs text-purple-200">Pasos</p>
+              <p id="steps" class="text-2xl font-semibold text-purple-200">0</p>
+            </div>
+            <div class="bg-amber-800 p-3 rounded-md">
+              <p class="text-xs text-amber-200">Tiempo</p>
+              <p id="time" class="text-2xl font-semibold text-amber-200">
+                0.0s
+              </p>
+            </div>
+          </div>
+
+          <div class="visualization-container mb-6">
+            <div
+              id="visualization"
+              class="relative h-64 w-full border border-gray-600 rounded-md"
+            ></div>
+          </div>
+
+          <div
+            class="step-description p-4 border border-gray-600 rounded-md mb-4"
+          >
+            <p id="current-step" class="text-gray-200">
+              Selecciona datos y presiona "Iniciar" para comenzar la
+              visualización.
+            </p>
+          </div>
+
+          <div class="flex justify-between">
+            <button
+              id="prev-step"
+              class="bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-md font-medium transition"
+              disabled
+            >
+              Paso anterior
+            </button>
+            <div>
+              <span id="current-step-num">0</span> /
+              <span id="total-steps">0</span>
+            </div>
+            <button
+              id="next-step"
+              class="bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-md font-medium transition"
+              disabled
+            >
+              Siguiente paso
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-10 bg-gray-800 rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-semibold text-gray-100 mb-4">
+          Explicación de Algoritmos
+        </h2>
+
+        <div class="space-y-6">
+          <div id="bubble-explanation" class="algostep-highlight">
+            <h3 class="font-semibold text-gray-100 mb-2">
+              Bubble Sort (Ordenamiento Burbuja)
+            </h3>
+            <p class="text-gray-300 mb-2">
+              Este algoritmo compara pares de elementos adyacentes y los
+              intercambia si están en el orden incorrecto. Este proceso se
+              repite hasta que no se requieran más intercambios.
+            </p>
+            <div class="text-gray-300">
+              <p class="mb-1 font-medium">Complejidad temporal:</p>
+              <ul class="list-disc pl-5 text-sm">
+                <li>Mejor caso: O(n) cuando el arreglo ya está ordenado</li>
+                <li>Caso promedio: O(n²)</li>
+                <li>
+                  Peor caso: O(n²) cuando el arreglo está ordenado en orden
+                  inverso
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div id="insertion-explanation">
+            <h3 class="font-semibold text-gray-100 mb-2">
+              Insertion Sort (Ordenamiento por Inserción)
+            </h3>
+            <p class="text-gray-300 mb-2">
+              Construye el arreglo ordenado de a un elemento a la vez, tomando
+              cada elemento e insertándolo en su posición correcta.
+            </p>
+            <div class="text-gray-300">
+              <p class="mb-1 font-medium">Complejidad temporal:</p>
+              <ul class="list-disc pl-5 text-sm">
+                <li>Mejor caso: O(n) cuando el arreglo ya está ordenado</li>
+                <li>Caso promedio: O(n²)</li>
+                <li>
+                  Peor caso: O(n²) cuando el arreglo está ordenado en orden
+                  inverso
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div id="selection-explanation">
+            <h3 class="font-semibold text-gray-100 mb-2">
+              Selection Sort (Ordenamiento por Selección)
+            </h3>
+            <p class="text-gray-300 mb-2">
+              Divide el arreglo en una parte ordenada y otra no ordenada. Busca
+              el elemento más pequeño en la parte no ordenada y lo coloca al
+              final de la parte ordenada.
+            </p>
+            <div class="text-gray-300">
+              <p class="mb-1 font-medium">Complejidad temporal:</p>
+              <ul class="list-disc pl-5 text-sm">
+                <li>
+                  Mejor caso: O(n²) incluso si el arreglo ya está ordenado
+                </li>
+                <li>Caso promedio: O(n²)</li>
+                <li>Peor caso: O(n²)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/logic.js"></script>
+  </body>
+</html>

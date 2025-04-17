@@ -1,0 +1,28 @@
+body {
+  font-family: "Inter", sans-serif;
+}
+.bar {
+  transition: height 0.3s ease, background-color 0.3s ease;
+}
+.fade-in {
+  animation: fadeIn 0.5s;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.visualization-container {
+  min-height: 300px;
+}
+.step-description {
+  min-height: 80px;
+}
+.algostep-highlight {
+  background-color: #0f172a;
+  border-left: 4px solid #14b8a6;
+  padding-left: 1rem;
+}
